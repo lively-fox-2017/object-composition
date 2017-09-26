@@ -34,7 +34,7 @@ class OtherCookie extends Cookie {
 }
 
 class CookieFactory {
-  static create(cookies, ingredient) {
+  static create(cookies, ingredient) { // method untuk mengirim dan mengembalikan list cookies
     let cookiesList = []
     for (var i = 0; i < cookies.length-1; i++) {
       if(cookies[i] == 'peanut butter'){
@@ -48,12 +48,12 @@ class CookieFactory {
     return cookiesList
   }
 
-  static cookieRecomendation(day, cookies) {
+  static cookieRecomendation(day, cookies) { // method untuk menentukan cookie yg mengandung sugar atau tidak
     let temp = []
     for (var i = 0; i < cookies.length; i++) {
       let count = 0
       for (var j = 0; j < cookies[i].ingredients.length; j++) {
-        if(day === 'tuesday' && cookies[i].ingredients[j].has_sugar === true){
+        if(day === 'tuesday' && cookies[i].ingredients[j].has_sugar == true){
           count++
         }
       }
@@ -64,7 +64,7 @@ class CookieFactory {
     return temp
   }
 
-  static getName(data) {
+  static getName(data) { // Method untuk memisah dan mendapatkan data nama cookie
     let name = []
     for (var i = 0; i < data.length; i++) {
       let splitOpt = data[i].split(' = ')
@@ -74,47 +74,39 @@ class CookieFactory {
     return name
   }
 
-  static getIng(data) {
-    let ingred = []
+  static getIng(data) { // Method untuk memisah dan mendapatkan data ingredients
+    let ingred = [] // penampung split by (' = ')
     for (var i = 0; i < data.length-1; i++) {
       let splitOpt = data[i].split(' = ')
       ingred.push(splitOpt[1]);
     }
 
-    let ingredSplit = []
+    let ingredSplit = [] // penampung split by (', ')
     for (var i = 0; i < ingred.length; i++) {
       let temp = ingred[i].split(', ')
       ingredSplit.push(temp);
     }
 
-    let ingArr = []
+    let ingredient = [] // penampung array of object ingredient
     for (var i = 0; i < ingredSplit.length; i++) {
-      let tempArr = []
-      for (var j = 0; j < ingredSplit[i].length; j++) {
-        let temp = ingredSplit[i][j].split(' : ');
-        tempArr.push([temp[1], temp[0]]);
-      }
-      ingArr.push(tempArr)
-    }
-
-    let ingredient = []
-    for (var i = 0; i < ingArr.length; i++) {
       let tempObj = []
-      for (var j = 0; j < ingArr[i].length; j++) {
-        let ingObj = {}
-        if(ingArr[i][j][0] == 'sugar'){
-          ingObj['name'] = ingArr[i][j][0]
-          ingObj['amount'] = ingArr[i][j][1]
+      for (var j = 0; j < ingredSplit[i].length; j++) {
+        let ingredSplit2 = ingredSplit[i][j].split(' : '); // split by (' : ')
+        let ingObj = {} // penampung string ingredient to object
+        if(ingredSplit2[1] == 'sugar'){
+          ingObj['name'] = ingredSplit2[1]
+          ingObj['amount'] = ingredSplit2[0]
           ingObj['has_sugar'] = true
         }else{
-          ingObj['name'] = ingArr[i][j][0]
-          ingObj['amount'] = ingArr[i][j][1]
+          ingObj['name'] = ingredSplit2[1]
+          ingObj['amount'] = ingredSplit2[0]
           ingObj['has_sugar'] = false
         }
-        tempObj.push(new Ingredient(ingObj))
+        tempObj.push(new Ingredient(ingObj)) // object di input ke new Ingredient()
       }
       ingredient.push(tempObj)
     }
+
     return ingredient;
   }
 }
