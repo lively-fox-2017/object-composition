@@ -62,29 +62,68 @@ class CookieFactory {
             }
             //console.log(dataFixed.length)
             //console.log(dataFixed[0][1].split(','))
-            let pecah = []
+            let dataIng = []
             for (let idx = 0; idx < dataFixed.length - 1; idx++) {
-                pecah.push(dataFixed[idx][1].split(','))
+                let pecah = dataFixed[idx][1].split(',')
                 for (let c = 0; c < pecah.length; c++) {
-                    //console.log(pecah)
+                    dataIng.push(pecah[c].trim().split(':'))
                 }
             }
-            //console.log(pecah[0])
-
-
-
 
             /* import to parameter cookie */
             let result = []
             for (let i = 0; i < importFile.length - 1; i++) {
-                //console.log(dataFixed[i][1])
+
+                console.log(dataFixed[i][0])
+
+                let composition = []
                 if (dataFixed[i][0].trim() === 'peanut butter') {
-                    result.push(new PeanutButter(dataFixed[0][0], pecah[0]))
+                    for (let pb = 0; pb < dataIng.length; pb++) {
+                        console.log(dataIng[1])
+                        let status_sugar = true
+                        if (dataIng[1][1].trim() === 'sugar') {
+                            status_sugar = true
+                        } else { status_sugar = false }
+
+                        composition.push(new Ingredient({
+                            name: dataIng[1],
+                            amount: dataIng[0],
+                            has_sugar: status_sugar
+                        }))
+                    }
+                    result.push(new PeanutButter(dataFixed[i][0], composition))
                 } else if (dataFixed[i][0].trim() === 'chocolate chip') {
-                    result.push(new ChocholateChip(dataFixed[1][0], pecah[1]))
+                    for (let pb = 0; pb < dataIng.length; pb++) {
+
+                        let status_sugar = true
+                        if (dataIng[1][1].trim() === 'sugar') {
+                            status_sugar = true
+                        } else { status_sugar = false }
+
+                        composition.push(new Ingredient({
+                            name: dataIng[1],
+                            amount: dataIng[0],
+                            has_sugar: status_sugar
+                        }))
+                    }
+                    result.push(new ChocholateChip(dataFixed[1][0], composition))
                 } else {
-                    result.push(new OtherCookies(dataFixed[i][0], pecah[i]))
+                    for (let pb = 0; pb < dataIng.length; pb++) {
+
+                        let status_sugar = true
+                        if (dataIng[1][1].trim() === 'sugar') {
+                            status_sugar = true
+                        } else { status_sugar = false }
+
+                        composition.push(new Ingredient({
+                            name: dataIng[1],
+                            amount: dataIng[0],
+                            has_sugar: status_sugar
+                        }))
+                    }
+                    result.push(new OtherCookies(dataFixed[i][0], composition))
                 }
+                console.log(composition[1])
             }
             return result
 
