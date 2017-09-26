@@ -81,8 +81,6 @@ class CookieFactory{
       //
     }
 
-    
-
     return arrCookiesResep
 
   }
@@ -97,7 +95,7 @@ let arrCookies = [];
 for (let i = 0; i < fileCookies.length; i++){
   arrCookies.push(fileCookies[i].trim().split('='))
 }
-console.log(arrCookies);
+// console.log(arrCookies);
 
 var batch_of_cookies = CookieFactory.create(arrCookies)
 console.log(batch_of_cookies);
