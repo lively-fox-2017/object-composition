@@ -20,15 +20,13 @@ class Ingredient {
 
 class Cookie {
 	constructor(name, ingredients){
-		// this.status = "mentah";
 		this.name = name;
 		this.status = "mentah";
-		this.ingredients = ingredients;
-		// this.peanut_count = 100;
+		this.ingredients = this.pecahIngredients(ingredients);
 	}
 	
-	pecahIngredients(){
-		let bahan = this.ingredients.split(",");
+	pecahIngredients(ingredients){
+		let bahan = ingredients.split(",");
 		let arr = [];
 		for(let i = 0; i < bahan.length; i++){
 			let detailBahan = bahan[i].split(":");
@@ -41,9 +39,7 @@ class Cookie {
 			arr.push({name: ingredient.name, amount: ingredient.amount, has_sugar: ingredient.has_sugar});
 		}
 		
-		this.ingredients = arr;
-		
-		return this.ingredients;
+		return arr;
 	}
 	
 	// bake(){
@@ -51,29 +47,23 @@ class Cookie {
 	// }
 }
 
-class PeanutButter {
-	constructor(name, status, ingredients){
-		this.name = name;
-		this.status = status;
-		this.ingredients = ingredients;
+class PeanutButter extends Cookie {
+	constructor(ingredients){
+		super("peanut butter", ingredients);
 		this.peanut_count = 100;
 	}
 }
 
-class ChocholateChip {
-	constructor(name, status, ingredients){
-		this.name = name;
-		this.status = status;
-		this.ingredients = ingredients;
+class ChocholateChip extends Cookie{
+	constructor(ingredients){
+		super("chocolate chip", ingredients);
 		this.peanut_count = 200;
 	}
 }
 
-class OtherCookie {
-	constructor(name, status, ingredients){
-		this.name = name;
-		this.status = status;
-		this.ingredients = ingredients;
+class OtherCookie extends Cookie {
+	constructor(name, ingredients){
+		super(name, ingredients);
 		this.peanut_count = 150;
 	}
 }
@@ -86,16 +76,14 @@ class CookieFactory {
 		let arr = [];
 		for (let i = 0; i < cookies.length; i++) {
 			let namaKue = cookies[i].split("=");
-			let cookie = new Cookie(namaKue[0], namaKue[1]);
-			cookie.pecahIngredients();
 			if (namaKue[0] === "peanut butter"){
-				let peanutbutter = new PeanutButter(cookie.name, cookie.status, cookie.ingredients);
+				let peanutbutter = new PeanutButter(namaKue[1]);
 				arr.push(peanutbutter);
 			} else if (namaKue[0] === "chocolate chip") {
-				let chocolatechip = new ChocholateChip(cookie.name, cookie.status, cookie.ingredients);
+				let chocolatechip = new ChocholateChip(namaKue[1]);
 				arr.push(chocolatechip);
 			} else {
-				let othercookie = new OtherCookie(cookie.name, cookie.status, cookie.ingredients);
+				let othercookie = new OtherCookie(namaKue[0], namaKue[1]);
 				arr.push(othercookie);
 			}
 		}
