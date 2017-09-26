@@ -30,9 +30,7 @@ class Cookie {
 
     hasSugar(input) {
         let sugar =false
-        // console.log(input.length)
         for (let i = 0; i < input.length; i++){
-            // console.log(input[i].receipt)
             if (input[i].receipt === 'sugar'){
                 sugar = true
                 break;
@@ -42,7 +40,7 @@ class Cookie {
     }
 
     bake() {
-        this.status = "selesai dimasak"
+        this.status = `Kue ${this._name} selesai dimasak`
     }
 }
 
@@ -95,12 +93,45 @@ class CookieFactory {
         return this.cookies
     }
 
+    static cookieRecommendation(day, options, ingred) {
+        let free = []
+        let varians = this.create(options, ingred)
+
+        if (day === 'Tuesday' || day === 'Selasa') {
+            for (let i = 0; i < varians.length; i++) {
+                if (varians[i].has_sugar === false) {
+                    free.push(varians[i])
+                }
+            }
+            return free
+        } else {
+            for (let i = 0; i < varians.length; i++) {
+                if (varians[i].has_sugar === true) {
+                    free.push(varians[i])
+                }
+            }
+            return free
+        }
+    }
+
 }
 
 
 
 
 var cookie = CookieFactory.create(options, ingred)
+var kue =  CookieFactory.cookieRecommendation('Rabu', options, ingred)
+console.log('sugar free cookies are :')
+for (let k = 0; k < kue.length; k++){
+    console.log(kue[k]._name)
+}
 
-console.log(cookie[0])
+for (let i = 0; i < cookie.length; i++) {
+    cookie[i].bake()
+    console.log(cookie[i].status)
+}
+
+// for (let j = 0; j < cookie.length; j++) {
+//     console.log(cookie[j].has_sugar)
+// }
 // console.log(bahan)
