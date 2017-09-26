@@ -3,15 +3,16 @@ class Ingredients {
   constructor(options){
     this.name = options['name']
     this.amount = options['amount']
-    this.has_sugar = this.has_sugar(options['name'])
+    this.has_sugar = this.cekGula(options['name'])
   }
-  has_sugar(name){
+  cekGula(name){
     if(name == 'sugar'){
       return true
     }else{
       return false
     }
   }
+
 }
 
 class Cookie {
@@ -19,6 +20,7 @@ class Cookie {
     this.name = name
     this.ingredients = this.ingredients(ingredients)
     this.status = "mentah"
+    // this.sugar = this.has_sugar(ingredients)
   }
 
   bake(){
@@ -39,12 +41,24 @@ class Cookie {
       }
     return komponen
   }
+
+  has_sugar(ingredients){
+    // console.log(this.ingredients);
+    for (var i = 0; i < this.ingredients.length; i++) {
+      if (this.ingredients[i].has_sugar === true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
 
 class PeanutButter extends Cookie {
   constructor(name,ingredients){
     super(name,ingredients)
     this.peanut_count = 100
+    this.sugar = this.has_sugar(ingredients)
   }
 }
 
@@ -52,6 +66,7 @@ class ChocholateChip extends Cookie {
   constructor(name,ingredients){
     super(name,ingredients)
     this.choc_chip_count = 200
+    this.sugar = this.has_sugar(ingredients)
   }
 }
 
@@ -59,6 +74,7 @@ class OtherCookie extends Cookie {
   constructor(name,ingredients){
     super(name,ingredients)
     this.choc_chip_count = 150
+    this.sugar = this.has_sugar(ingredients)
   }
 }
 
@@ -89,6 +105,19 @@ class CookieFactory {
     }
     return arr
   }
+
+  static cookieRecommendation(hari,list){
+    let tampung = []
+    if(hari == 'Tuesday'){
+      for (var i = 0; i < list.length; i++) {
+        if(list[i].sugar === false){
+          tampung.push(list[i])
+        }
+      }
+    }
+    return tampung
+  }
+
 }
 
 
@@ -97,3 +126,9 @@ let options = fs.readFileSync('cookies.txt','utf-8').split('\n')
 
 let batch_of_cookies = CookieFactory.create(options);
 console.log(JSON.stringify(batch_of_cookies,null,3));
+
+let sugarFreeFoods = CookieFactory.cookieRecommendation('Tuesday', batch_of_cookies);
+console.log("Sugar Free Cake Are : ");
+for (var i = 0; i < sugarFreeFoods.length; i++) {
+  console.log(sugarFreeFoods[i].name);
+}
