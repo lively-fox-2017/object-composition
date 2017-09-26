@@ -78,6 +78,8 @@ class ChocoChip extends Cookie {
   }
 }
 
+class chocolate
+
 class CookieFactory {
   constructor() {
     //console.log('jadi');
@@ -101,7 +103,7 @@ class CookieFactory {
   static createBatch(arrOfOptions){
     let cookies = []
     for (var i in arrOfOptions) {
-      cookies.push(this.create(arrOfOptions[i]))
+      cookies.push(CookieFactory.create(arrOfOptions[i]))
     }
     return cookies;
   }
@@ -115,5 +117,6 @@ let opt = [{name:'peanut butter', inggredients:ings},
             {name: 'medovnik'}]
 let fromFile = new TxtToCookiesConverter().converter('cookies.txt');
 let factory = CookieFactory.createBatch(fromFile);
+let sugarFreeFoods = CookieFactory.
 //console.log(CookieFactory);
 console.log(factory);
