@@ -120,7 +120,7 @@ class CookieFactory {
 
 
 var cookie = CookieFactory.create(options, ingred)
-var kue =  CookieFactory.cookieRecommendation('Rabu', options, ingred)
+var kue =  CookieFactory.cookieRecommendation('Tuesday', options, ingred)
 console.log('sugar free cookies are :')
 for (let k = 0; k < kue.length; k++){
     console.log(kue[k]._name)
