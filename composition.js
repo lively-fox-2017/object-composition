@@ -3,6 +3,7 @@
 const fs = require('fs');
 var cookies = fs.readFileSync('cookies.txt', 'UTF-8')
 var options = cookies.split('\n')
+// console.log(options)
 var bahan = fs.readFileSync('ingredients.txt', 'UTF-8').split('\n')
 let ingred = []
 for (let i = 0; i < bahan.length; i++) {
@@ -15,6 +16,7 @@ class Cookie {
         this._name = name
         this.status = "mentah"
         this.ingredients = this.getIngredients(options)
+        this.has_sugar = this.hasSugar(this.ingredients)
     }
 
     getIngredients(options){
@@ -22,7 +24,21 @@ class Cookie {
         for (let i = 0; i < options.length; i++) {
             ingredient.push(new Ingredients(options[i].split(':')))
         }
+
         return ingredient
+    }
+
+    hasSugar(input) {
+        let sugar =false
+        // console.log(input.length)
+        for (let i = 0; i < input.length; i++){
+            // console.log(input[i].receipt)
+            if (input[i].receipt === 'sugar'){
+                sugar = true
+                break;
+            }
+        }
+        return sugar
     }
 
     bake() {
