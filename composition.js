@@ -53,10 +53,21 @@ class TxtToCookiesConverter {
 new TxtToCookiesConverter().converter('cookies.txt');
 
 class Cookie {
-  constructor(name, inggredients) {
+  constructor(name, inggredients,hasSugar) {
     this.name = name;
     this.status = 'mentah';
     this.inggredients = inggredients || [];
+    this.hasSugar = this.checkSugar();
+  }
+
+  checkSugar(){
+    //console.log(this.inggredients);
+    for(let i in this.inggredients){
+      if (this.inggredients[i].name.toLowerCase()=='sugar'||this.inggredients[i].name.toLowerCase()==' sugar'){
+        return true;
+      }
+    }
+    return false
   }
 
   bake() {
@@ -66,7 +77,7 @@ class Cookie {
 
 class PeanutButter extends Cookie {
   constructor(inggredients) {
-    super('peanut butter', inggredients)
+    super('peanut butter', inggredients, false)
     this.peanutCount = 100;
   }
 }
@@ -78,11 +89,21 @@ class ChocoChip extends Cookie {
   }
 }
 
-class chocolate
+//class chocolate
 
 class CookieFactory {
   constructor() {
     //console.log('jadi');
+  }
+
+  static createCakesWithoutSugar(cakes){
+    let result = [];
+    for(let i in cakes){
+      if (cakes[i].hasSugar== false){
+        result.push(cakes[i]);
+      }
+    }
+    return result
   }
 
   static create(options) {
@@ -95,7 +116,7 @@ class CookieFactory {
           return new ChocoChip(options.inggredients);
           break;
         default:
-          return new Cookie(options)
+          return new Cookie(options.name, options.inggredients, options.hasSugar)
       }
     }
   }
@@ -109,14 +130,17 @@ class CookieFactory {
   }
 }
 
-let chocolate = new Inggredient({name:'chocolate', amount:80, hasSugar:false});
-let egg = new Inggredient({name:'egg', amount:3, hasSugar:false});
-let ings = [ egg, chocolate];
-let opt = [{name:'peanut butter', inggredients:ings},
-            {name:'chocolate chip'},
-            {name: 'medovnik'}]
+
 let fromFile = new TxtToCookiesConverter().converter('cookies.txt');
 let factory = CookieFactory.createBatch(fromFile);
-let sugarFreeFoods = CookieFactory.
-//console.log(CookieFactory);
+
+let freeSugarCakes = CookieFactory.createCakesWithoutSugar(factory);
+
 console.log(factory);
+console.log('\n\nfree sugar cake list: \n');
+for (var i in freeSugarCakes) {
+  if (freeSugarCakes[i].hasOwnProperty('name')) {
+    console.log(freeSugarCakes[i].name);
+  }
+}
+//console.log(freeSugarCakes);
