@@ -27,7 +27,7 @@ class ChocolateChip extends Cookie {
 }
 
 class OtherCookie extends Cookie {
-  constructor(ingredients,name) {
+  constructor(ingredients, name) {
     super(ingredients)
     this.name = name;
     this.other_count = 150;
@@ -45,13 +45,13 @@ class CookieFactory {
       for (var j = 0; j < dataIngredients.length; j++) {
         var temp = dataIngredients[j].split(':')
         var sugar = false;
-        if(temp[1].indexOf('sugar') > -1)
+        if (temp[1].indexOf('sugar') > -1)
           sugar = true;
 
         var options = {
-          name : temp[1],
-          amount : temp[0],
-          has_sugar : sugar,
+          name: temp[1],
+          amount: temp[0],
+          has_sugar: sugar,
         }
         var objIngredients = new Ingredients(options);
         ingredients.push(objIngredients);
@@ -63,26 +63,29 @@ class CookieFactory {
         var obj = new ChocolateChip(ingredients);
         cookies.push(obj);
       } else {
-        var obj = new OtherCookie(ingredients,dataKue[0]);
+        var obj = new OtherCookie(ingredients, dataKue[0]);
         cookies.push(obj);
       }
     }
     return cookies;
   }
-  static cookieRecomendation(day, batch_of_cookies){
-    var sugarFreeFoods = [];
-    for(var i =0;i<batch_of_cookies.length;i++){
-      var sugar = [];
-      for(var j = 0;j<batch_of_cookies[i].ingredients.length;j++){
-        if(batch_of_cookies[i].ingredients[j].has_sugar === true){
-          sugar.push(batch_of_cookies[i].ingredients[j].name);
+  static cookieRecomendation(day, batch_of_cookies) {
+    if (day === 'tuesday') {
+      var sugarFreeFoods = [];
+      for (var i = 0; i < batch_of_cookies.length; i++) {
+        var sugar = [];
+        for (var j = 0; j < batch_of_cookies[i].ingredients.length; j++) {
+          if (batch_of_cookies[i].ingredients[j].has_sugar === true) {
+            sugar.push(batch_of_cookies[i].ingredients[j].name);
+          }
+        }
+        if (sugar.length === 0) {
+          sugarFreeFoods.push(batch_of_cookies[i]);
         }
       }
-      if(sugar.length === 0){
-        sugarFreeFoods.push(batch_of_cookies[i]);
-      }
+      return sugarFreeFoods;
     }
-    return sugarFreeFoods;
+    return batch_of_cookies;
   }
 }
 
@@ -99,6 +102,6 @@ console.log(batch_of_cookies);
 
 let sugarFreeFoods = CookieFactory.cookieRecomendation("tuesday", batch_of_cookies);
 console.log("sugar free cakes are :");
-for(let i =0;i<sugarFreeFoods.length;i++){
+for (let i = 0; i < sugarFreeFoods.length; i++) {
   console.log(sugarFreeFoods[i].name);
 }
