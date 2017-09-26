@@ -5,7 +5,7 @@ class Inggredient{
   constructor(options) {
     this.name = options.name || '';
     this.amount = options.amount || 0;
-    this.hasSugar = options.hasSugar || true;
+    this.hasSugar = options.name=='sugar'||options.name==' sugar' ? true:false;
   }
 }
 
@@ -57,7 +57,7 @@ class Cookie {
     this.name = name;
     this.status = 'mentah';
     this.inggredients = inggredients || [];
-    this.hasSugar = this.checkSugar();
+    //this.hasSugar = this.checkSugar();
   }
 
   checkSugar(){
@@ -98,10 +98,18 @@ class CookieFactory {
 
   static createCakesWithoutSugar(cakes){
     let result = [];
+    let sugar = 0;
     for(let i in cakes){
-      if (cakes[i].hasSugar== false){
-        result.push(cakes[i]);
+      for(let j in cakes[i].inggredients){
+        if(cakes[i].inggredients[j].hasSugar){
+          sugar+=1;
+          break;
+        }
       }
+      if(sugar==0){
+        result.push(cakes[i])
+      }
+      sugar=0
     }
     return result
   }
