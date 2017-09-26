@@ -1,4 +1,5 @@
 "use strict"
+
 const fs = require('fs');
 class Cookie {
   constructor(ingredients) {
@@ -83,9 +84,8 @@ class CookieFactory {
           sugarFreeFoods.push(batch_of_cookies[i]);
         }
       }
-      return sugarFreeFoods;
     }
-    return batch_of_cookies;
+    return sugarFreeFoods;
   }
 }
 
