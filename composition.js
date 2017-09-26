@@ -61,7 +61,7 @@ class Cookie {
   }
 
   checkSugar(){
-    //console.log(this.inggredients);
+    //  console.log(this.inggredients);
     for(let i in this.inggredients){
       if (this.inggredients[i].name.toLowerCase()=='sugar'||this.inggredients[i].name.toLowerCase()==' sugar'){
         return true;
