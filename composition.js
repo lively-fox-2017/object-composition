@@ -1,14 +1,43 @@
 "use strict"
+class Ingredients {
+  constructor(options){
+    this.name = options['name']
+    this.amount = options['amount']
+    this.has_sugar = this.has_sugar(options['name'])
+  }
+  has_sugar(name){
+    if(name == 'sugar'){
+      return true
+    }else{
+      return false
+    }
+  }
+}
 
 class Cookie {
   constructor(name,ingredients){
     this.name = name
-    this.ingredients = []
+    this.ingredients = this.ingredients(ingredients)
     this.status = "mentah"
   }
 
   bake(){
     this.status = "selesai dimasak"
+  }
+
+  ingredients(ingredients){
+    let komponen = []
+    let optionsPisah = ingredients.split(',')
+    for (var i = 0; i < optionsPisah.length -1; i++) {
+        let komponenIngredients = optionsPisah[i].split(' : ')
+        let objIngredients = {
+          name: komponenIngredients[1],
+          amount: komponenIngredients[0]
+        }
+        let ingredient = new Ingredients(objIngredients)
+        komponen.push(ingredient)
+      }
+    return komponen
   }
 }
 
@@ -41,31 +70,30 @@ class CookieFactory {
 
   static create(options){
     let arr = []
+    let komponen = []
     let data = null
 
-    for (var i = 0; i < options.length -1; i++) {
-      if (options[i]==='Peanut Butter'){
-        data = new PeanutButter(options[i])
-      } else if (options[i]==='Chocolate Chip'){
-        data = new ChocholateChip(options[i])
-      } else if (options[i]==='Chocolate Cheese'){
-        data = new OtherCookie(options[i])
-      } else if (options[i]==='Chocolate Butter') {
-        data = new OtherCookie(options[i])
+    for (var i = 0; i < options.length-1; i++) {
+
+      let optionsPisah = options[i].split(' = ')
+        if (optionsPisah[0]==='Peanut Butter'){
+        data = new PeanutButter(optionsPisah[0],optionsPisah[1])
+      } else if (optionsPisah[0]==='Chocolate Chip'){
+        data = new ChocholateChip(optionsPisah[0],optionsPisah[1])
+      } else if (optionsPisah[0]==='Chocolate Cheese'){
+        data = new OtherCookie(optionsPisah[0],optionsPisah[1])
+      } else if (optionsPisah[0]==='Chocolate Butter') {
+        data = new OtherCookie(optionsPisah[0],optionsPisah[1])
       }
       arr.push(data)
     }
     return arr
   }
-
-  static ingredients(options){ }
 }
-
 
 
 var fs = require('fs')
 let options = fs.readFileSync('cookies.txt','utf-8').split('\n')
 
-
 let batch_of_cookies = CookieFactory.create(options);
-console.log(batch_of_cookies);
+console.log(JSON.stringify(batch_of_cookies,null,3));
