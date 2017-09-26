@@ -71,21 +71,7 @@ class CookieFactory {
     /*membuat array object */
     var arrObjIngredients = []
     var gula = true
-    /*for(var j = 0; j < arrBaru.length; j++) {
-      for(var i = 0; i < arrBaru[j].length; i+=2) {
 
-        if(arrBaru[j][i+1] == ' sugar') {
-          gula = true
-        }
-        else {
-          gula = false
-        }
-        arrObjIngredients.push(new Ingredients({name: arrBaru[j][i+1], amount: arrBaru[j][i], has_sugar: gula
-        }))
-      //arrBaru[0][i], arrBaru[0][i+1], this.sugar(arrBaru[0][i])))
-      }
-      arrObjIngredientsBaru.push(arrObjIngredients)
-    }*/
     for(var i = 0; i < arrBaru.length; i++) {
       var tampung2 = []
       for(var j = 0; j < arrBaru[i].length; j+=2) {
@@ -143,4 +129,6 @@ class Ingredients {
 var kue = CookieFactory.create('cookies.txt')
 var kuega = CookieFactory.cookieRecomendation(kue)
 
-console.log(kuega);
+for(var i = 0; i < kuega.length; i++) {
+  console.log(kuega[i].name);
+}
