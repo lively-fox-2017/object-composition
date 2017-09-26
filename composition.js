@@ -2,6 +2,12 @@
 let fs = require('fs')
 let importFile = fs.readFileSync('cookies.txt', 'utf8').toString().split('\n')
 
+let dataFixed = []
+for(let idx=0; idx<importFile.length; idx++){
+  dataFixed.push(importFile[idx].split('='))
+}
+
+
 class Cookie{
   constructor(name){
     this.name = name
@@ -35,6 +41,7 @@ class OtherCookies extends Cookie{
   }
 }
 
+
 class CookieFactory{
   static create(options){
     // accepts a list of cookie types and returns those cookies
@@ -52,7 +59,6 @@ class CookieFactory{
     }
     return result
   }
-
   // define other methods as needed
 }
 
