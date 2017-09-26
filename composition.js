@@ -74,12 +74,12 @@ class CookieFactory {
             let result = []
             for (let i = 0; i < importFile.length - 1; i++) {
 
-                console.log(dataFixed[i][0])
+                //console.log(dataFixed[i][0])
 
                 let composition = []
                 if (dataFixed[i][0].trim() === 'peanut butter') {
                     for (let pb = 0; pb < dataIng.length; pb++) {
-                        console.log(dataIng[1])
+                        //console.log(dataIng[1])
                         let status_sugar = true
                         if (dataIng[1][1].trim() === 'sugar') {
                             status_sugar = true
@@ -91,7 +91,7 @@ class CookieFactory {
                             has_sugar: status_sugar
                         }))
                     }
-                    result.push(new PeanutButter(dataFixed[i][0], composition))
+                    result.push(new PeanutButter(dataFixed[i][0], composition[0]))
                 } else if (dataFixed[i][0].trim() === 'chocolate chip') {
                     for (let pb = 0; pb < dataIng.length; pb++) {
 
@@ -106,7 +106,7 @@ class CookieFactory {
                             has_sugar: status_sugar
                         }))
                     }
-                    result.push(new ChocholateChip(dataFixed[1][0], composition))
+                    result.push(new ChocholateChip(dataFixed[1][0], composition[0]))
                 } else {
                     for (let pb = 0; pb < dataIng.length; pb++) {
 
@@ -121,9 +121,9 @@ class CookieFactory {
                             has_sugar: status_sugar
                         }))
                     }
-                    result.push(new OtherCookies(dataFixed[i][0], composition))
+                    result.push(new OtherCookies(dataFixed[i][0], composition[0]))
                 }
-                console.log(composition[1])
+                //console.log(composition)
             }
             return result
 
@@ -140,7 +140,7 @@ class CookieFactory {
 //let factory = new CookieFactory()
 
 let batch_of_cookies = CookieFactory.create('cookies.txt')
-    //console.log(batch_of_cookies)
+console.log(batch_of_cookies)
 
 //let sugarFreeFoods = CookieFactory.cookieRecommendation('tuesday', batch_of_cookies)
 // console.log('sugar free cakes are :')
