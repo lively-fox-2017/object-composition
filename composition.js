@@ -1,81 +1,20 @@
 'use strict'
 
-// require FileSystem
-const fs = require('fs');
+const util = require('util');
+const fs   = require('fs');
 
-class Cookie {
+const CookieFactory = require('./cookie-factory.js');
 
-  constructor() {
-    this.status = 'mentah';
-  }
+const readFile = fs.readFileSync('cookies.txt').toString().split('\n');
 
-  bake() {
-    this.status = 'selesai dimasak';
-  }
+let batchOfCookies = CookieFactory.create(readFile);
+console.log(batchOfCookies);
 
-}
+let sugarFreeFoods = CookieFactory.cookieRecommendation(batchOfCookies);
 
-class PeanutButter extends Cookie {
+console.log('Sugar free cakes are:');
+for (let i = 0; i < sugarFreeFoods.length; i++) {
 
-  constructor() {
-    super();
-    this.peanut_count = 100;
-  }
+  console.log(sugarFreeFoods[i].name);
 
 }
-
-class ChocolateChip extends Cookie {
-
-  constructor() {
-    super();
-    this.choc_chip_count = 200;
-  }
-
-}
-
-class OtherCookie extends Cookie {
-
-  constructor() {
-    super();
-    this.other_count = 150;
-  }
-
-}
-
-class CookieFactory {
-
-  static create(options) {
-
-    let availableClasses = ['peanutbutter', 'chocolatechip'];
-
-    let cookies = [];
-
-    for (let i = 0; i < options.length; i++) {
-
-      let noSpaceElement = options[i].replace(/ /g, '');
-
-      if (availableClasses.indexOf(noSpaceElement) === -1) {
-
-        cookies.push(new OtherCookie); // Instantiate new OtherCookie
-
-      } else {
-
-        if (noSpaceElement === 'peanutbutter')
-          cookies.push(new PeanutButter); // Instantiate new PeanutButter
-        else
-          cookies.push(new ChocolateChip); // Instantiate new ChocolateChip
-
-      }
-
-    };
-
-    return cookies;
-
-  }
-
-}
-
-let options = fs.readFileSync('cookies.txt').toString().split('\n');
-let batch_of_cookies = CookieFactory.create(options);
-
-console.log(batch_of_cookies);
