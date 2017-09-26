@@ -22,19 +22,16 @@ class Cookie {
             hasil.push(temp)
         }
 
-        // console.log(ingarr)
         return hasil
     }
 
     has_sugar(input) {
         var manis = false
         for(var i = 0; i < input.length; i++) {
-            // for(var j = 0; j < input[i].length; j++) {
                 if(input[i].ingredient === ' sugar') {
                     manis = true
                     break
                 }
-            // }
         }
         return manis
     }
@@ -66,20 +63,32 @@ class CookieFactory {
         }
         return kuePesanan
     }
+
+    static input(cb) {
+        fs.readFile('people.csv', 'utf8', (err,data) => {
+         let arr = []
+         let temp = []
+         if (err) {
+             throw err;
+        }
+         arr.push(data.split(/\n/).map(function(a){return a.split(',')})) 
+         let manusia = []
+         for (var i=1; i<arr[0].length; i++) {
+           let initPerson = new Person(arr[0][i]);
+           manusia.push(initPerson);
+         } 
+         cb(manusia)
+       })
+      }
     static cookieRecommendation(day, options) {
         var free = []
         this.create(options)
-
-        if(day === 'tuesday') {
-            for(var i = 0; i < options.length; i++) {
-                if(this.create(options)[i].manis === false) {
-                    free.push(this.create(options)[i])
-                }
+        for(var i = 0; i < options.length; i++) {
+            if(this.create(options)[i].manis === false) {
+                free.push(this.create(options)[i])
             }
-            return  free
-        } else {
-            return this.create(options)
         }
+        return  free
     }
 }
 
@@ -89,12 +98,19 @@ for (var i=0; i<a.length; i++) {
     arr.push(a[i].split('='))
 }
 
+let cookie = CookieFactory.input('./cookies.txt');
+cookie((data) => {
+    console.log(data)
+}) 
+
+
+
 var kue = CookieFactory.create(arr)
-console.log(kue)
+// console.log(kue)
 let sugarFreeFoods = CookieFactory.cookieRecommendation('tuesday',arr)
 console.log('sugar free cookies are :')
 for (var i=0; i<sugarFreeFoods.length; i++) {
     console.log(sugarFreeFoods[i].name)
 }
-console.log()
+// console.log()
 // console.log(CookieFactory.cookieRecommendation('hari', arr))
